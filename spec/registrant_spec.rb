@@ -15,5 +15,10 @@ RSpec.describe Registrant do
         expect(@registrant_1.age).to eq(18)
         expect(@registrant_2.age).to eq(15)
     end
+
+    it 'does it have a permit?' do
+        expect(@registrant_1.age).to eq(18)
+        expect(@registrant_2.age).to eq(15)
+    end
     
   end
