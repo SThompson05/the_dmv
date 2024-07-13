@@ -24,6 +24,15 @@ class Facility
     @registered_vehicles << vehicle
   end
 
+  def administer_written_test(registrant)
+    return false unless @services.include?('Written Test')
+    return false unless registrant.permit?
+  
+    registrant.license_data[:written] = true
+    true
+  end
+  
+
   private
 
   def update_plate_type_and_fees(vehicle)
