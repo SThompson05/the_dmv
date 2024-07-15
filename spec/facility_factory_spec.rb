@@ -17,7 +17,7 @@ RSpec.describe FacilityFactory do
         expect(co_offices.first.services).to eq('vehicle titles, registration, renewals;  VIN inspections')
     end
 
-    it 'creates office from New Year DMV office locations' do
+    it 'creates office from New York DMV office locations' do
         factory = FacilityFactory.new
         ny_factory = DmvDataService.new.ny_dmv_office_locations
         ny_offices = factory.create_office(ny_factory)
@@ -29,5 +29,19 @@ RSpec.describe FacilityFactory do
         expect(ny_offices.first.address).to eq('1815 E JERICHO TURNPIKE')
         expect(ny_offices.first.phone).to eq('7184774820')
         # New York doesn't list their services
+    end
+
+    it 'creates office from Missouri DMV office locations' do
+        factory = FacilityFactory.new
+        mo_factory = DmvDataService.new.mo_dmv_office_locations
+        mo_offices = factory.create_office(mo_factory)
+
+        expect(mo_offices).to be_an(Array)
+        expect(mo_offices.first).to be_a(Facility)
+        
+        expect(mo_offices.first.name).to eq('FERGUSON-OFFICE CLOSED UNTIL FURTHER NOTICE')
+        expect(mo_offices.first.address).to eq('10425 WEST FLORISSANT')
+        expect(mo_offices.first.phone).to eq('(314) 733-5316')
+        # Missouri doesn't list their services
     end
 end
