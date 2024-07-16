@@ -43,27 +43,49 @@ RSpec.describe FacilityFactory do
         expect(ny_offices.first.city).to eq('HUNTINGTON')
         expect(ny_offices.first.state).to eq('NY')
         expect(ny_offices.first.zip).to eq('11743')
-        # expect(ny_offices.first.hours).to eq('') -- needs work
+        # expect(ny_offices.first.format_hours).to eq('Monday: 7:30 AM - 5:00 PM, Tuesday: 7:30 AM - 5:00 PM, Wednesday: 7:30 AM - 5:00 PM, Thursday: 7:30 AM - 5:00 PM, Friday: 7:30 AM - 5:00 PM')
         expect(ny_offices.first.geom).to eq({:type=>"Point", :coordinates=>[-73.336022661, 40.836000946]})
         expect(ny_offices.first.comp_region).to eq('1020')
         expect(ny_offices.first.comp_region_2).to eq('1120')
         expect(ny_offices.first.comp_region_3).to eq('2179')
-        # New York doesn't list their services
+        
     end
 
-    # it 'creates office from Missouri DMV office locations' do
-    #     factory = FacilityFactory.new
-    #     mo_factory = DmvDataService.new.mo_dmv_office_locations
-    #     mo_offices = factory.create_office(mo_factory)
+    it 'creates office from Missouri DMV office locations' do
+        factory = FacilityFactory.new
+        mo_factory = DmvDataService.new.mo_dmv_office_locations
+        mo_offices = factory.create_office(mo_factory)
 
-    #     expect(mo_offices).to be_an(Array)
-    #     expect(mo_offices.first).to be_a(Facility)
+        expect(mo_offices).to be_an(Array)
+        expect(mo_offices.first).to be_a(FacilityInfo)
         
-    #     expect(mo_offices.first.name).to eq('FERGUSON-OFFICE CLOSED UNTIL FURTHER NOTICE')
-    #     expect(mo_offices.first.address).to eq('10425 WEST FLORISSANT')
-    #     expect(mo_offices.first.phone).to eq('(314) 733-5316')
-    #     # Missouri doesn't list their services
-    # end
+        expect(mo_offices.first.region_num).to eq('5')
+        # mapped number to id
+        expect(mo_offices.first.id).to eq('059')
+        # mapped type to office_type
+        expect(mo_offices.first.office_type).to eq('1MV')
+        expect(mo_offices.first.office).to eq('FERGUSON-OFFICE CLOSED UNTIL FURTHER NOTICE')
+        expect(mo_offices.first.address_1).to eq('10425 WEST FLORISSANT')
+        expect(mo_offices.first.city).to eq('FERGUSON')
+        expect(mo_offices.first.state).to eq('MO')
+        expect(mo_offices.first.zip).to eq('63136')
+        # mapped located_in to parking
+        expect(mo_offices.first.parking).to eq('Personalized plates can be picked up at the North County License Office. ')
+        expect(mo_offices.first.county).to eq('St. Louis County')
+        expect(mo_offices.first.phone).to eq('(314) 733-5316')
+        expect(mo_offices.first.fax).to eq('(314) 733-5319')
+        expect(mo_offices.first.size).to eq('3')
+        expect(mo_offices.first.email).to eq('FERGUSONAGENTOFFICE@DOR.MO.GOV')
+         # mapped latlng to geom
+        expect(mo_offices.first.geom).to eq({:latitude=>"38.737935", :longitude=>"-90.220029"})
+        expect(mo_offices.first.texting_num).to eq('(314) 730-0606')
+        # mapped additional_license_office_info to services
+        expect(mo_offices.first.services).to eq('Personalized plates can be picked up at the North County License office located at 11700 W Florissant, St. Louis, MO 63033.')
+        expect(mo_offices.first.comp_region).to eq('203')
+        expect(mo_offices.first.comp_region_2).to eq('51')
+        expect(mo_offices.first.comp_region_3).to eq('2210')
+   
+    end
 end
 
 # NY DMV Info
@@ -85,29 +107,29 @@ end
 #   :friday_beginning_hours=>"7:30 AM",
 #   :friday_ending_hours=>"5:00 PM",
 #   :georeference=>{:type=>"Point", :coordinates=>[-73.336022661, 40.836000946]},
-#   :":@computed_region_yamh_8v7k"=>"1020",
-#   :":@computed_region_wbg7_3whc"=>"1120",
-#   :":@computed_region_kjdx_g34t"=>"2179"},
+#   :":@computed_region_yamh_8v7k"=>"1020", ********
+#   :":@computed_region_wbg7_3whc"=>"1120",*********
+#   :":@computed_region_kjdx_g34t"=>"2179"},*********
 
 # MO DMV Info
-# {:number=>"059",
+# {:number=>"059",*******
 #   :dorregionnumber=>"5",
-#   :type=>"1MV",
-#   :name=>"FERGUSON-OFFICE CLOSED UNTIL FURTHER NOTICE",
-#   :address1=>"10425 WEST FLORISSANT",
-#   :city=>"FERGUSON",
-#   :state=>"MO",
-#   :zipcode=>"63136",
+#   :type=>"1MV",*****
+#   :name=>"FERGUSON-OFFICE CLOSED UNTIL FURTHER NOTICE",******
+#   :address1=>"10425 WEST FLORISSANT",*********
+#   :city=>"FERGUSON",*********
+#   :state=>"MO",*********
+#   :zipcode=>"63136",********
 #   :located_in=>"Personalized plates can be picked up at the North County License Office. ",
-#   :county=>"St. Louis County",
-#   :phone=>"(314) 733-5316",
-#   :fax=>"(314) 733-5319",
-#   :size=>"3",
-#   :email=>"FERGUSONAGENTOFFICE@DOR.MO.GOV",
-#   :latlng=>{:latitude=>"38.737935", :longitude=>"-90.220029"},
-#   :textingphonenumber=>"(314) 730-0606",
-#   :additional_license_office_info=>
+#   :county=>"St. Louis County",*******
+#   :phone=>"(314) 733-5316",*********
+#   :fax=>"(314) 733-5319",**********
+#   :size=>"3", ******
+#   :email=>"FERGUSONAGENTOFFICE@DOR.MO.GOV",*********
+#   :latlng=>{:latitude=>"38.737935", :longitude=>"-90.220029"},******
+#   :textingphonenumber=>"(314) 730-0606",*******
+#   :additional_license_office_info=> ******
 #    "Personalized plates can be picked up at the North County License office located at 11700 W Florissant, St. Louis, MO 63033.",
-#   :":@computed_region_ny2h_ckbz"=>"203",
-#   :":@computed_region_c8ar_jsdj"=>"51",
-#   :":@computed_region_ikxf_gfzr"=>"2210"},
+#   :":@computed_region_ny2h_ckbz"=>"203",*******
+#   :":@computed_region_c8ar_jsdj"=>"51",******
+#   :":@computed_region_ikxf_gfzr"=>"2210"},*******
